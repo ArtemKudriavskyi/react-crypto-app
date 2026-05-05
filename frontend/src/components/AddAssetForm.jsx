@@ -82,6 +82,7 @@ export default function AddAssetForm({ onClose }) {
     };
     assetRef.current = newAsset;
     addAsset(newAsset);
+    
     console.log("Success:", newAsset);
     setSubmitted(true);
   }

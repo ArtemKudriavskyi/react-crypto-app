@@ -11,8 +11,7 @@ export default function AppLayout() {
   const { loading } = useContext(CryptoContext);
   const screens = useBreakpoint();
   const isMobile =screens.xs || (screens.sm && !screens.md); // Consider mobile if xs or sm breakpoint is active
-  console.log("Screens:", screens, "Is Mobile:", isMobile);
-  console.log("Loading state:", screens.xs);
+
   if (loading) {
     return <Spin size="large" fullscreen />;
   }

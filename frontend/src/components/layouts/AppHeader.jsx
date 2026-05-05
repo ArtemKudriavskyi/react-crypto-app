@@ -3,6 +3,7 @@ import { Button, Drawer, Layout, Modal, Select, Space } from "antd";
 import { useCrypto } from "../../context/crypto-context";
 import CoinInfoModal from "../CoinInfoModal";
 import AddAssetForm from "../AddAssetForm";
+import { RedoOutlined } from "@ant-design/icons";
 
 const headerStyle = {
   width: "100%",
@@ -20,7 +21,7 @@ export default function AppHeader() {
   const [modal, setModal] = useState(false);
   const [coin, setCoin] = useState(null);
   const [drawer, setDrawer] = useState(false);
-  const { crypto } = useCrypto();
+  const { crypto, refreshCrypto } = useCrypto();
 
   useEffect(() => {
     function keypress(e) {
@@ -64,6 +65,10 @@ export default function AppHeader() {
           </Space>
         )}
       />
+      <Button type="link" icon={<RedoOutlined  />} onClick={refreshCrypto}>
+        Refresh
+      </Button>
+     
       <Button type="primary" onClick={() => setDrawer(true)}>
         Add Asset
       </Button>
