@@ -1,8 +1,9 @@
-import React from "react";
-import { Table } from "antd";
+/* eslint-disable react/prop-types */
+import React, { useState } from "react";
+import { Button, InputNumber, Table } from "antd";
 import { useCrypto } from "../context/crypto-context";
 
-const columns = [
+const BaseColumns = [
   {
     title: "Name",
     dataIndex: "name",
@@ -51,14 +52,64 @@ const columns = [
     // onFilter: (value, record) => record.amount.indexOf(value) === 0,
   },
 ];
+const sellColums = [
+  {
+    title: "Amount to sold",
+    dataIndex: "amountToSold",
+  },
+  { title: "Sold", dataIndex: "sold" },
+];
+export default function AssetsTable({addAsset=false}) {
+  const { assets, removeAsset } = useCrypto();
+  // const [coinSold, setCoinSold] = useState();
+  // const [coinAmount, setCoinAmount] = useState();
+  const [soldAmounts,setSoldAmounts]=useState({});
 
-export default function AssetsTable() {
-  const { assets } = useCrypto();
+  const columns = addAsset ? [...BaseColumns, ...sellColums] : BaseColumns;
+
   const data = assets.map((asset) => ({
     key: asset.id,
     name: asset.name,
     price: asset.price,
     amount: asset.amount,
+    ...(addAsset && {
+      amountToSold: (
+        <InputNumber
+          min={0}
+          max={asset.amount}
+          step={0.1}
+          value={soldAmounts[asset.id]??null}
+          onChange={(value) => {
+            // setCoinSold(asset);
+            // setCoinAmount(value);
+           setSoldAmounts(prev=>({
+            ...prev,
+            [asset.id]:value
+           }))
+          }}
+        />
+      ),
+      sold: (
+        <Button
+          type="primary"
+          onClick={() => {
+            // removeAsset(coinSold, coinAmount);
+            // console.log(coinSold);
+            // console.log(coinAmount);
+            const coinAmount=soldAmounts[asset.id];
+            if(!coinAmount)return;
+            removeAsset(asset,coinAmount);
+            setSoldAmounts(prev=>{
+              const updated={...prev};
+              delete updated[asset.id];
+              return updated;
+            })
+          }}
+        >
+          sold asset
+        </Button>
+      ),
+    }),
   }));
 
   return (

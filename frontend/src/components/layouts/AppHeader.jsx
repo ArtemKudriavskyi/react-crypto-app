@@ -4,6 +4,7 @@ import { useCrypto } from "../../context/crypto-context";
 import CoinInfoModal from "../CoinInfoModal";
 import AddAssetForm from "../AddAssetForm";
 import { RedoOutlined } from "@ant-design/icons";
+import SoldAssetForm from "../SoldAssetForm";
 
 const headerStyle = {
   width: "100%",
@@ -21,6 +22,8 @@ export default function AppHeader() {
   const [modal, setModal] = useState(false);
   const [coin, setCoin] = useState(null);
   const [drawer, setDrawer] = useState(false);
+  const [addAsset, setAddAsset] = useState();
+  const [drawerSize, setDrawerSize] = useState();
   const { crypto, refreshCrypto } = useCrypto();
 
   useEffect(() => {
@@ -44,7 +47,7 @@ export default function AppHeader() {
     <Layout.Header style={headerStyle}>
       <Select
         style={{ width: 250 }}
-        value="press / to open"
+        placeholder="press / to open"
         // optionLabelProp="label"
         onSelect={handleSelect}
         onClick={() => setSelect((prev) => !prev)}
@@ -65,25 +68,49 @@ export default function AppHeader() {
           </Space>
         )}
       />
-      <Button type="link" icon={<RedoOutlined  />} onClick={refreshCrypto}>
+      <Button type="link" icon={<RedoOutlined />} onClick={refreshCrypto}>
         Refresh
       </Button>
-     
-      <Button type="primary" onClick={() => setDrawer(true)}>
-        Add Asset
-      </Button>
+      <div>
+        <Button
+          type="primary"
+          onClick={() => {
+            setAddAsset(true);
+            setDrawerSize(600)
+            setDrawer(true);
+          }}
+        >
+          Add Asset
+        </Button>
+        <Button
+          style={{ marginLeft: 10 }}
+          type="default"
+          onClick={() => {
+            setAddAsset(false);
+            setDrawerSize(1000)
+            setDrawer(true);
+          }}
+        >
+          Sold Asset
+        </Button>
+      </div>
+
       <Modal open={modal} onCancel={() => setModal(false)} footer={null}>
         <CoinInfoModal coin={coin} />
       </Modal>
       <Drawer
         destroyOnHidden
-        size={600}
+        size={drawerSize}
         title="Add asset"
         closable={{ "aria-label": "Close Button" }}
         onClose={() => setDrawer(false)}
         open={drawer}
       >
-        <AddAssetForm onClose={()=>setDrawer(false)}></AddAssetForm>
+        {addAsset ? (
+          <AddAssetForm onClose={() => setDrawer(false)}></AddAssetForm>
+        ) : (
+          <SoldAssetForm onClose={() => setDrawer(false)}></SoldAssetForm>
+        )}
       </Drawer>
     </Layout.Header>
   );

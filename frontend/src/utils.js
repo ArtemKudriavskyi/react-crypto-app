@@ -1,4 +1,4 @@
-export default function percentDefference(oldValue, newValue) {
+export default function percentDifference(oldValue, newValue) {
   // return (((newValue - oldValue) / oldValue) * 100).toFixed(2);
    return( 100 *Math.abs((oldValue - newValue) / ((oldValue + newValue) / 2))).toFixed(2);
 }
