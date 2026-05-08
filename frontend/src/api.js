@@ -17,7 +17,7 @@ export function fetchAssets() {
 }
 const options = {
   method: 'GET',
-  headers: {'X-API-KEY': 'ULuMigpkcdI2mXg4G9KdlFtv5K+sQ4i4RjQsAIZa1uA='}
+  headers: {'X-API-KEY': import.meta.env.VITE_COINSTATS_API_KEY}
 };
 
 export default function fetchRealCrypto() {

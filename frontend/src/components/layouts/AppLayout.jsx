@@ -17,7 +17,7 @@ export default function AppLayout() {
   }
   return (
     <Layout>
-      <AppHeader />
+      <AppHeader isMobile={isMobile} />
       <Layout style={{flexDirection:isMobile?'column':'row'}} hasSider={!isMobile}>
         <AppSider  isMobile={isMobile} screens={screens}/>
         <AppContent />

@@ -8,32 +8,6 @@ const BaseColumns = [
     title: "Name",
     dataIndex: "name",
     showSorterTooltip: { target: "full-header" },
-    // filters: [
-    //   {
-    //     text: "Joe",
-    //     value: "Joe",
-    //   },
-    //   {
-    //     text: "Jim",
-    //     value: "Jim",
-    //   },
-    //   {
-    //     text: "Submenu",
-    //     value: "Submenu",
-    //     children: [
-    //       {
-    //         text: "Green",
-    //         value: "Green",
-    //       },
-    //       {
-    //         text: "Black",
-    //         value: "Black",
-    //       },
-    //     ],
-    //   },
-    // ],
-    // specify the condition of filtering result
-    // here is that finding the name started with `value`
     onFilter: (value, record) => record.name.indexOf(value) === 0,
     sorter: (a, b) => a.name.length - b.name.length,
     sortDirections: ["descend"],
@@ -49,7 +23,6 @@ const BaseColumns = [
     dataIndex: "amount",
     defaultSortOrder: "descend",
     sorter: (a, b) => a.amount - b.amount,
-    // onFilter: (value, record) => record.amount.indexOf(value) === 0,
   },
 ];
 const sellColums = [
@@ -61,14 +34,12 @@ const sellColums = [
 ];
 export default function AssetsTable({addAsset=false}) {
   const { assets, removeAsset } = useCrypto();
-  // const [coinSold, setCoinSold] = useState();
-  // const [coinAmount, setCoinAmount] = useState();
   const [soldAmounts,setSoldAmounts]=useState({});
 
   const columns = addAsset ? [...BaseColumns, ...sellColums] : BaseColumns;
 
   const data = assets.map((asset) => ({
-    key: asset.id,
+    key: asset.assetId,
     name: asset.name,
     price: asset.price,
     amount: asset.amount,
@@ -78,13 +49,11 @@ export default function AssetsTable({addAsset=false}) {
           min={0}
           max={asset.amount}
           step={0.1}
-          value={soldAmounts[asset.id]??null}
+          value={soldAmounts[asset.assetId]??null}
           onChange={(value) => {
-            // setCoinSold(asset);
-            // setCoinAmount(value);
            setSoldAmounts(prev=>({
             ...prev,
-            [asset.id]:value
+            [asset.assetId]:value
            }))
           }}
         />
@@ -93,15 +62,12 @@ export default function AssetsTable({addAsset=false}) {
         <Button
           type="primary"
           onClick={() => {
-            // removeAsset(coinSold, coinAmount);
-            // console.log(coinSold);
-            // console.log(coinAmount);
-            const coinAmount=soldAmounts[asset.id];
+            const coinAmount=soldAmounts[asset.assetId];
             if(!coinAmount)return;
             removeAsset(asset,coinAmount);
             setSoldAmounts(prev=>{
               const updated={...prev};
-              delete updated[asset.id];
+              delete updated[asset.assetId];
               return updated;
             })
           }}

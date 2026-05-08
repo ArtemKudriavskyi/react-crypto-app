@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from "react";
 import { Button, Drawer, Layout, Modal, Select, Space } from "antd";
 import { useCrypto } from "../../context/crypto-context";
@@ -9,15 +10,20 @@ import SoldAssetForm from "../SoldAssetForm";
 const headerStyle = {
   width: "100%",
   textAlign: "center",
-  height: 60,
+  minHeight: 60,
   padding: "1rem",
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
   backgroundColor: "#ccc",
 };
+const headerMobileStyle={
+  display:'flex',
+  flexDirection:"column",
+  height:200,
+}
 
-export default function AppHeader() {
+export default function AppHeader({isMobile}) {
   const [select, setSelect] = useState(false);
   const [modal, setModal] = useState(false);
   const [coin, setCoin] = useState(null);
@@ -44,11 +50,11 @@ export default function AppHeader() {
   }
 
   return (
-    <Layout.Header style={headerStyle}>
+    <Layout.Header style={isMobile?{...headerStyle,...headerMobileStyle}:headerStyle}>
       <Select
         style={{ width: 250 }}
         placeholder="press / to open"
-        // optionLabelProp="label"
+        
         onSelect={handleSelect}
         onClick={() => setSelect((prev) => !prev)}
         open={select}
@@ -101,7 +107,7 @@ export default function AppHeader() {
       <Drawer
         destroyOnHidden
         size={drawerSize}
-        title="Add asset"
+        title={addAsset?'Add Asset':'Sold Asset'}
         closable={{ "aria-label": "Close Button" }}
         onClose={() => setDrawer(false)}
         open={drawer}

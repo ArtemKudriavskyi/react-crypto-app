@@ -46,23 +46,9 @@ export function CryptoContextProvider({ children }) {
   const mappedAssets = useMemo(() => {
     return mapAssets(assets, crypto);
   }, [assets, crypto]);
-  // async function preload() {
-
-  //   setAssets(mapAssets(assets, crypto));
-  //   localStorage.setItem('assets',JSON.stringify(mapAssets(assets, crypto)))
-  //   // setCrypto(crypto);
-  //   setLoading(false);
-  // }
-  // useEffect(() => {
-  //   setLoading(true);
-  //   preload();
-  // }, [crypto]);
 
   function addAsset(asset) {
     setAssets((prev) => {
-      // const mappedAssets = mapAssets([...prev, asset], crypto);
-      // localStorage.setItem("assets", JSON.stringify(mappedAssets));
-      // return mappedAssets;
       const updated = [...prev, asset];
       localStorage.setItem("assets", JSON.stringify(updated));
       return updated;
@@ -70,21 +56,10 @@ export function CryptoContextProvider({ children }) {
   }
 
   function removeAsset(asset, coinAmount) {
-    // setAssets((prev) => {
-    //   const filteredAssets = prev.filter((coin) => coin != asset);
-    //   localStorage.setItem("assets", JSON.stringify(filteredAssets));
-    //   return filteredAssets;
-    // });
-    // console.log("asset.amount", asset.amount);
-    // if (asset.amount > coinAmount) {
-    //   const newAsset = asset;
-    //   newAsset.amount = asset.amount - coinAmount;
-    //   addAsset(newAsset);
-    // }
     setAssets((prev) => {
       const updated = prev
         .map((coin) => {
-          if (coin.id != asset.id) return coin;
+          if (coin.assetId != asset.assetId) return coin;
           const newAmount = coin.amount - coinAmount;
           if (newAmount <= 0) return null;
           return {
@@ -100,19 +75,14 @@ export function CryptoContextProvider({ children }) {
   }
 
   async function refreshCrypto() {
-    try{
+    try {
       setLoading(true);
       const result = await fetchRealCrypto();
-      // const assets = await fetchAssets();
-      // const mappedAssets=mapAssets(assets, result)
-      // setAssets(mappedAssets);
-      // localStorage.setItem('assets',JSON.stringify(mappedAssets))
       setCrypto(result);
       localStorage.setItem("crypto", JSON.stringify(result));
-    }finally{
+    } finally {
       setLoading(false);
     }
-    // preload();
   }
 
   const value = useMemo(

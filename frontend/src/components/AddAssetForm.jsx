@@ -50,10 +50,7 @@ export default function AddAssetForm({ onClose }) {
       <Select
         style={{ width: "100%" }}
         placeholder="Select a coin"
-        // optionLabelProp="label"
         onSelect={(value) => setCoin(crypto.find((c) => c.id === value))}
-        // onClick={() => setSelect((prev) => !prev)}
-        // open={select}
         options={crypto.map((coin) => ({
           label: coin.name,
           value: coin.id,
@@ -75,7 +72,8 @@ export default function AddAssetForm({ onClose }) {
 
   function onFinish(values) {
     const newAsset = {
-      id: coin.id,
+      assetId: window.crypto.randomUUID(),
+      id:coin.id,
       amount: values.amount,
       price: values.price,
       date: values.date?.$d ?? new Date(),
@@ -134,13 +132,6 @@ export default function AddAssetForm({ onClose }) {
       <Form.Item
         label="Price"
         name="price"
-        // rules={[
-        //   {
-        //     required: true,
-        //     type: "number",
-        //     min: 0,
-        //   },
-        // ]}
       >
         <InputNumber
           onChange={handlePriceChange}
