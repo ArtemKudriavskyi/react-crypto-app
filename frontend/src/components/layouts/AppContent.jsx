@@ -24,15 +24,15 @@ export default function AppContent() {
     <Layout.Content style={contentStyle}>
       <Typography.Title level={3} style={{ textAlign: "left", color: "#fff" }}>
         Portfolio:
-        {assets 
+        {assets
           .map((asset) => asset.amount * cryptoPriceMap[asset.id])
           .reduce((acc, v) => acc + v, 0)
           .toFixed(2)}
         $
       </Typography.Title>
 
-      <PortfolioChart/>
-      <AssetsTable/>
+      <PortfolioChart />
+      <AssetsTable />
     </Layout.Content>
   );
 }
