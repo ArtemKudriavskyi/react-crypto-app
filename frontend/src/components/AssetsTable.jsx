@@ -32,9 +32,9 @@ const sellColums = [
   },
   { title: "Sold", dataIndex: "sold" },
 ];
-export default function AssetsTable({addAsset=false}) {
+export default function AssetsTable({ addAsset = false }) {
   const { assets, removeAsset } = useCrypto();
-  const [soldAmounts,setSoldAmounts]=useState({});
+  const [soldAmounts, setSoldAmounts] = useState({});
 
   const columns = addAsset ? [...BaseColumns, ...sellColums] : BaseColumns;
 
@@ -49,12 +49,12 @@ export default function AssetsTable({addAsset=false}) {
           min={0}
           max={asset.amount}
           step={0.1}
-          value={soldAmounts[asset.assetId]??null}
+          value={soldAmounts[asset.assetId] ?? null}
           onChange={(value) => {
-           setSoldAmounts(prev=>({
-            ...prev,
-            [asset.assetId]:value
-           }))
+            setSoldAmounts((prev) => ({
+              ...prev,
+              [asset.assetId]: value,
+            }));
           }}
         />
       ),
@@ -62,14 +62,14 @@ export default function AssetsTable({addAsset=false}) {
         <Button
           type="primary"
           onClick={() => {
-            const coinAmount=soldAmounts[asset.assetId];
-            if(!coinAmount)return;
-            removeAsset(asset,coinAmount);
-            setSoldAmounts(prev=>{
-              const updated={...prev};
+            const coinAmount = soldAmounts[asset.assetId];
+            if (!coinAmount) return;
+            removeAsset(asset, coinAmount);
+            setSoldAmounts((prev) => {
+              const updated = { ...prev };
               delete updated[asset.assetId];
               return updated;
-            })
+            });
           }}
         >
           sold asset

@@ -16,14 +16,21 @@ export function fetchAssets() {
   });
 }
 const options = {
-  method: 'GET',
-  headers: {'X-API-KEY': import.meta.env.VITE_COINSTATS_API_KEY}
+  method: "GET",
+  headers: { "X-API-KEY": import.meta.env.VITE_COINSTATS_API_KEY },
 };
 
-export default function fetchRealCrypto() {
-  return fetch('https://openapiv1.coinstats.app/coins', options)
-    .then(res => res.json())
-    .then(res => res.result)
-    .catch(err => console.error(err));
-}
+export default async function fetchRealCrypto() {
+  // return fetch('https://openapiv1.coinstats.app/coins', options)
+  //   .then(res => res.json())
+  //   .then(res => res.result)
+  //   .catch(err => console.error(err));
+  const res = await fetch("https://openapiv1.coinstats.app/coins", options);
 
+  if (!res.ok) {
+    throw new Error("Failed to fetch crypto data");
+  }
+
+  const data = await res.json();
+  return data.result ?? [];
+}

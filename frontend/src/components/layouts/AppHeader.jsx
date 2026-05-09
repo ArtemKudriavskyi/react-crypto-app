@@ -17,13 +17,13 @@ const headerStyle = {
   justifyContent: "space-between",
   backgroundColor: "#ccc",
 };
-const headerMobileStyle={
-  display:'flex',
-  flexDirection:"column",
-  height:200,
-}
+const headerMobileStyle = {
+  display: "flex",
+  flexDirection: "column",
+  height: 200,
+};
 
-export default function AppHeader({isMobile}) {
+export default function AppHeader({ isMobile }) {
   const [select, setSelect] = useState(false);
   const [modal, setModal] = useState(false);
   const [coin, setCoin] = useState(null);
@@ -50,11 +50,12 @@ export default function AppHeader({isMobile}) {
   }
 
   return (
-    <Layout.Header style={isMobile?{...headerStyle,...headerMobileStyle}:headerStyle}>
+    <Layout.Header
+      style={isMobile ? { ...headerStyle, ...headerMobileStyle } : headerStyle}
+    >
       <Select
         style={{ width: 250 }}
         placeholder="press / to open"
-        
         onSelect={handleSelect}
         onClick={() => setSelect((prev) => !prev)}
         open={select}
@@ -82,7 +83,7 @@ export default function AppHeader({isMobile}) {
           type="primary"
           onClick={() => {
             setAddAsset(true);
-            setDrawerSize(600)
+            setDrawerSize(600);
             setDrawer(true);
           }}
         >
@@ -93,7 +94,7 @@ export default function AppHeader({isMobile}) {
           type="default"
           onClick={() => {
             setAddAsset(false);
-            setDrawerSize(1000)
+            setDrawerSize(1000);
             setDrawer(true);
           }}
         >
@@ -107,7 +108,7 @@ export default function AppHeader({isMobile}) {
       <Drawer
         destroyOnHidden
         size={drawerSize}
-        title={addAsset?'Add Asset':'Sold Asset'}
+        title={addAsset ? "Add Asset" : "Sold Asset"}
         closable={{ "aria-label": "Close Button" }}
         onClose={() => setDrawer(false)}
         open={drawer}

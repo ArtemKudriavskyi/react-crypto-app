@@ -73,14 +73,14 @@ export default function AddAssetForm({ onClose }) {
   function onFinish(values) {
     const newAsset = {
       assetId: window.crypto.randomUUID(),
-      id:coin.id,
+      id: coin.id,
       amount: values.amount,
       price: values.price,
       date: values.date?.$d ?? new Date(),
     };
     assetRef.current = newAsset;
     addAsset(newAsset);
-    
+
     console.log("Success:", newAsset);
     setSubmitted(true);
   }
@@ -129,10 +129,7 @@ export default function AddAssetForm({ onClose }) {
           style={{ width: "100%" }}
         />
       </Form.Item>
-      <Form.Item
-        label="Price"
-        name="price"
-      >
+      <Form.Item label="Price" name="price">
         <InputNumber
           onChange={handlePriceChange}
           min={0}
